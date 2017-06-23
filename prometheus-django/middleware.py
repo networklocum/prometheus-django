@@ -32,13 +32,14 @@ class PrometheusMiddleware(object):
             Calculate the request latency by looking at the time we stored
             at the beggining of the request
         """
-        request_latency = time.time() - request.prometheus_start_time
-        latency_microseconds = request_latency / 1000000
-        url = replace_id_in_url(request.META.get('PATH_INFO'))
+        if hasattr(request, 'prometheus_start_time'):
+            request_latency = time.time() - request.prometheus_start_time
+            latency_microseconds = request_latency / 1000000
+            url = replace_id_in_url(request.META.get('PATH_INFO'))
 
-        PROMETHEUS_REQUEST_DURATION.labels(
-            request.method, url).observe(latency_microseconds)
-        PROMETHEUS_REQUEST_TOTAL.labels(
-            request.method, url, response.status_code).inc()
+            PROMETHEUS_REQUEST_DURATION.labels(
+                request.method, url).observe(latency_microseconds)
+            PROMETHEUS_REQUEST_TOTAL.labels(
+                request.method, url, response.status_code).inc()
 
         return response

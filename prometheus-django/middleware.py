@@ -1,6 +1,6 @@
 import re
 import time
-from prometheus_client import Counter, Histogram
+from prometheus_client import Counter, Summary
 
 
 def replace_id_in_url(url):
@@ -12,9 +12,9 @@ def replace_id_in_url(url):
     return re.sub(r'/[0-9]+/', '/:id/', url)
 
 
-PROMETHEUS_REQUEST_DURATION = Histogram('http_request_duration_microseconds',
-                                        'Request duration in microseconds',
-                                        ['method', 'endpoint'])
+PROMETHEUS_REQUEST_DURATION = Summary('http_request_duration_microseconds',
+                                      'Request duration in microseconds',
+                                      ['method', 'endpoint'])
 PROMETHEUS_REQUEST_TOTAL = Counter('http_requests_total',
                                    'Request total wiht status',
                                    ['method', 'endpoint', 'http_status'])

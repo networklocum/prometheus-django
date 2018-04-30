@@ -14,7 +14,7 @@ pip install prometheus_client \
 Add middleware to settings.py
 ```
 MIDDLEWARE_CLASSES = [
-    'prometheus-django.middleware.PrometheusMiddleware',
+    'prometheus_django.middleware.PrometheusMiddleware',
 ]
 
 ```

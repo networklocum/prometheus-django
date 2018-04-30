@@ -1,6 +1,6 @@
 import re
 import time
-from prometheus_client import Counter, Summary
+from prometheus_client import Counter, Summary, Gauge
 
 
 def replace_id_in_url(url):
@@ -18,6 +18,9 @@ PROMETHEUS_REQUEST_DURATION = Summary('http_request_duration_microseconds',
 PROMETHEUS_REQUEST_TOTAL = Counter('http_requests_total',
                                    'Request total wiht status',
                                    ['method', 'endpoint', 'http_status'])
+PROMETHEUS_REQUEST_IN_PROGRESS = Gauge('http_requests_in_progress_total', 
+                                       'Requests in progress',
+                                       ['method', 'endpoint'])
 
 
 class PrometheusMiddleware(object):
@@ -25,6 +28,11 @@ class PrometheusMiddleware(object):
         """
             Save initial time of the request when it starts
         """
+        url = replace_id_in_url(request.META.get('PATH_INFO'))
+
+        PROMETHEUS_REQUEST_IN_PROGRESS.labels(
+            request.method, url).inc()
+
         request.prometheus_start_time = time.time()
 
     def process_response(self, request, response):
@@ -41,5 +49,7 @@ class PrometheusMiddleware(object):
                 request.method, url).observe(latency_microseconds)
             PROMETHEUS_REQUEST_TOTAL.labels(
                 request.method, url, response.status_code).inc()
-
+            PROMETHEUS_REQUEST_IN_PROGRESS.labels(
+                request.method, url).dec()
+                
         return response

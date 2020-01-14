@@ -2,6 +2,15 @@ import re
 import time
 from prometheus_client import Counter, Summary, Gauge
 
+try:
+    # MiddlewareMixin is for backwards compatibility from django >=1.10
+    # to earlier versions, so it didn't exist before django 1.10.
+    # In our older Microservices we don't need to use this.
+    # https://docs.djangoproject.com/en/2.2/topics/http/middleware/#upgrading-pre-django-1-10-style-middleware
+    from django.utils.deprecation import MiddlewareMixin
+except ImportError:
+    MiddlewareMixin = object
+
 
 def replace_id_in_url(url):
     """
@@ -18,12 +27,12 @@ PROMETHEUS_REQUEST_DURATION = Summary('http_request_duration_microseconds',
 PROMETHEUS_REQUEST_TOTAL = Counter('http_requests_total',
                                    'Request total wiht status',
                                    ['method', 'endpoint', 'http_status'])
-PROMETHEUS_REQUEST_IN_PROGRESS = Gauge('http_requests_in_progress_total', 
+PROMETHEUS_REQUEST_IN_PROGRESS = Gauge('http_requests_in_progress_total',
                                        'Requests in progress',
                                        ['method', 'endpoint'])
 
 
-class PrometheusMiddleware(object):
+class PrometheusMiddleware(MiddlewareMixin):
     def process_request(self, request):
         """
             Save initial time of the request when it starts

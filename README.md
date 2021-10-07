@@ -19,7 +19,7 @@ MIDDLEWARE_CLASSES = [
 
 ```
 
-Add start_http_server on a different port in your main python file
+Add start_http_server on a different port in your main python file. This will expose a `/metrics` endpoint on the chosen port (in the example here 8080).
 ```
 from prometheus_client import start_http_server
 
@@ -36,4 +36,4 @@ On prometheus, it should detect automatically this service under  `targets`
 
 ## Expose prometheus config on kubernetes
 
-TODO
+Add a `port` for the chosen port number in the `service.yaml`, like for example in [email-dispatch](https://github.com/networklocum/email-dispatch-service/blob/a1ac49b5027ba8ad12b405d8584917ef9f85c3e5/helm/email-dispatch/templates/service.yaml#L14).

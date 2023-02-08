@@ -1,6 +1,7 @@
 import re
 import time
 
+from django.http import HttpRequest, HttpResponse
 from prometheus_client import Counter, Gauge, Summary
 
 try:
@@ -13,7 +14,7 @@ except ImportError:
     MiddlewareMixin = object
 
 
-def replace_id_in_url(url):
+def replace_id_in_url(url: str) -> str:
     """
     Replace id on url so we can easily group by them
     > replace_id_in_url(/user/1234/)
@@ -38,7 +39,7 @@ PROMETHEUS_REQUEST_IN_PROGRESS = Gauge(
 
 
 class PrometheusMiddleware(MiddlewareMixin):
-    def process_request(self, request):
+    def process_request(self, request: HttpRequest):
         """
         Save initial time of the request when it starts
         """
@@ -48,7 +49,7 @@ class PrometheusMiddleware(MiddlewareMixin):
 
         request.prometheus_start_time = time.time()
 
-    def process_response(self, request, response):
+    def process_response(self, request: HttpRequest, response: HttpResponse):
         """
         Calculate the request latency by looking at the time we stored
         at the beggining of the request

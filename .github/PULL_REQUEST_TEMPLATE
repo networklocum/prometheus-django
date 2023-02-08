@@ -1,0 +1,23 @@
+<!--
+For the autolink refrences to work properly, please format your title along the lines of
+JIRA-123 | Short Description
+-->
+## Jira Ticket
+
+
+## Description
+
+
+## Author Checklist
+
+-   [ ] Made things better
+-   [ ] Tests cover all the edge cases
+-   [ ] Not left any stray logging or comments
+-   [ ] Useful commit messages
+-   [ ] Bumped version in pyproject.toml
+-   [ ] Ready to create a Github release after merging
+
+## Reviewer Checklist
+
+-   [ ] I've read everything and understand it
+-   [ ] I've followed our [review guidelines](https://lantum.atlassian.net/wiki/spaces/ENG/pages/29982738/Code+Reviews)

@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
 import os
+
 from django.http import HttpResponse
-from prometheus_client import multiprocess
-from prometheus_client import generate_latest, CollectorRegistry, CONTENT_TYPE_LATEST
+from prometheus_client import (
+    CONTENT_TYPE_LATEST,
+    CollectorRegistry,
+    generate_latest,
+    multiprocess,
+)
 
 
 def metrics(request):

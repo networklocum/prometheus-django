@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 import os
 
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from prometheus_client import (
     CONTENT_TYPE_LATEST,
     CollectorRegistry,
@@ -12,7 +12,7 @@ from prometheus_client import (
 )
 
 
-def metrics(request):
+def metrics(request: HttpRequest):
     if "prometheus_multiproc_dir" in os.environ:
         registry = CollectorRegistry()
         multiprocess.MultiProcessCollector(registry)

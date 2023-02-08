@@ -14,7 +14,50 @@ prometheus_client = "*"
 django = ">=1.9.7,<=4.2"
 
 [tool.poetry.dev-dependencies]
+black = "22.8"
+flake8 = ">=5.0,<6.0"
+flake8-isort = ">=4.2,<5.0"
+flake8-pyproject = "^1.2.1"
+isort = ">=5.0,<6.0"
+mypy = "0.971"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.flake8]
+# Black
+max-line-length = 88
+extend-ignore =[
+    # Also black
+    "E203",
+    # There are a bunch of comments and strings that are too long and I don't want to
+    #  fix them right now so let's pretend they don't exist
+    "E501",
+]
+extend-exclude =[
+    # Don't lint the virtual environments (why is this not in the default set?)
+    ".venv",
+]
+
+
+[tool.isort]
+profile = "black"
+honor_noqa = true
+float_to_top = true
+combine_as_imports = true
+
+
+[tool.black]
+target-version = ['py36']
+
+
+[tool.mypy]
+ignore_missing_imports = true
+exclude = [
+    # Again, please stop linting virtualenvs
+    # (mypy will still follow imports into the venv but this stops it auto-discovering site packages)
+    "^.venv/",
+    # Mypy is unhappy about this module name (which it should be!) so let's pretend it doesn't exist
+    "prometheus-django"
+]

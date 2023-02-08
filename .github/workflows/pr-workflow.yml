@@ -1,0 +1,70 @@
+name: PR
+on: [pull_request]
+env:
+  oldest_python_version: "3.6"
+  poetry_version: "1.1.15"
+  black_version: "22.8"
+
+jobs:
+  black:
+    name: Lint Black
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.oldest_python_version }}
+
+      - name: Run Black
+        uses: psf/black@stable
+        with:
+          version: ${{ env.black_version }}
+
+  flake8:
+    name: Lint Flake8
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.oldest_python_version }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: ${{ env.poetry_version }}
+
+      - name: Setup flake8 annotations
+        uses: rbialon/flake8-annotations@v1
+
+      - name: Install Dependencies
+        run: poetry install --no-ansi --no-interaction
+
+      - name: Run flake8
+        run: poetry run flake8
+
+  mypy:
+    name: Lint mypy
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.oldest_python_version }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: ${{ env.poetry_version }}
+
+      - name: Install Dependencies
+        run: poetry install --no-ansi --no-interaction
+
+      - name: Run mypy
+        run: poetry run mypy .

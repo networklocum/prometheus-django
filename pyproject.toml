@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "prometheus-django"
+version = "1.1.0"
+description = "Prometheus django middleware"
+authors = ["Lantum <support@lantum.com>"]
+packages = [
+    {include = "prometheus-django"},
+    {include = "prometheus_django"}
+]
+
+[tool.poetry.dependencies]
+python = ">=3.6.2,<3.10"
+prometheus_client = "*"
+django = ">=1.9.7,<=4.2"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

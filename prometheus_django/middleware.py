@@ -1,6 +1,7 @@
 import re
 import time
-from prometheus_client import Counter, Summary, Gauge
+
+from prometheus_client import Counter, Gauge, Summary
 
 try:
     # MiddlewareMixin is for backwards compatibility from django >=1.10

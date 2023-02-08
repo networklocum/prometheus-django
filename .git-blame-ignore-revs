@@ -1,3 +1,7 @@
 # Use the following command to exclude this commit from git blame
 # `git config blame.ignoreRevsFile .git-blame-ignore-revs`
 # Migrate code style to Black
+a5628585ac166fd9b7174dda1ecf9aceece300ac
+
+# Format with isort
+86fbd42cb4ce7cd6defbc9aab9ec7fda70e1ddce

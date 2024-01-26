@@ -1,0 +1,12 @@
+# VSCode defaults
+MD013: false
+# Prettier
+list-marker-space:
+  ul_multi: 3
+  ul_single: 3
+ul-indent:
+  indent: 4
+# Overrides to make the changelog work
+MD024: false
+# Override to make the PR template less annoying
+MD041: false

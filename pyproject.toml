@@ -4,8 +4,8 @@ version = "1.1.0"
 description = "Prometheus django middleware"
 authors = ["Lantum <support@lantum.com>"]
 packages = [
-    {include = "prometheus-django"},
-    {include = "prometheus_django"}
+    { include = "prometheus-django" },
+    { include = "prometheus_django" },
 ]
 
 [tool.poetry.dependencies]
@@ -28,14 +28,14 @@ build-backend = "poetry.core.masonry.api"
 [tool.flake8]
 # Black
 max-line-length = 88
-extend-ignore =[
+extend-ignore = [
     # Also black
     "E203",
     # There are a bunch of comments and strings that are too long and I don't want to
     #  fix them right now so let's pretend they don't exist
     "E501",
 ]
-extend-exclude =[
+extend-exclude = [
     # Don't lint the virtual environments (why is this not in the default set?)
     ".venv",
 ]
@@ -59,5 +59,5 @@ exclude = [
     # (mypy will still follow imports into the venv but this stops it auto-discovering site packages)
     "^.venv/",
     # Mypy is unhappy about this module name (which it should be!) so let's pretend it doesn't exist
-    "prometheus-django"
+    "prometheus-django",
 ]

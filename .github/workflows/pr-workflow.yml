@@ -1,7 +1,7 @@
 name: PR
 on: [pull_request]
 env:
-  oldest_python_version: "3.6"
+  oldest_python_version: "3.7"
   poetry_version: "1.5.1"
   black_version: "22.8"
 

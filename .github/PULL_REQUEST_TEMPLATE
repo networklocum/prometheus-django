@@ -15,7 +15,6 @@ JIRA-123 | Short Description
 -   [ ] Not left any stray logging or comments
 -   [ ] Useful commit messages
 -   [ ] Bumped version in pyproject.toml
--   [ ] Ready to create a Github release after merging
 
 ## Reviewer Checklist
 

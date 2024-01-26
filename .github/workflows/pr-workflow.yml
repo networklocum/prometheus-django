@@ -1,70 +1,34 @@
 name: PR
 on: [pull_request]
-env:
-  oldest_python_version: "3.7"
-  poetry_version: "1.5.1"
-  black_version: "22.12.0"
 
 jobs:
-  black:
-    name: Lint Black
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ env.oldest_python_version }}
-
-      - name: Run Black
-        uses: psf/black@stable
-        with:
-          version: ${{ env.black_version }}
-
-  flake8:
-    name: Lint Flake8
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ env.oldest_python_version }}
-
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-          version: ${{ env.poetry_version }}
-
-      - name: Setup flake8 annotations
-        uses: rbialon/flake8-annotations@v1
-
-      - name: Install Dependencies
-        run: poetry install --no-ansi --no-interaction
-
-      - name: Run flake8
-        run: poetry run flake8
+  lint:
+    name: Lint
+    uses: networklocum/workflows/.github/workflows/reusable-lint.yml@main
+    with:
+      black_version: "22.12.0"
+      ruff_version: "0.1.11"
 
   mypy:
-    name: Lint mypy
-    runs-on: ubuntu-20.04
+    name: Lint
+    uses: networklocum/workflows/.github/workflows/reusable-mypy.yml@main
+    with:
+      python-version: "3.7"
+      poetry-version: "1.5.1"
+
+  build-and-test:
+    name: Test
+    uses: networklocum/workflows/.github/workflows/library-test.yml@main
+    with:
+      poetry-version: "1.5.1"
+      upload-reports: false
+
+  success:
+    name: Success
+    runs-on: ubuntu-latest
+    needs:
+      - build-and-test
+      - lint
+      - mypy
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ env.oldest_python_version }}
-
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-          version: ${{ env.poetry_version }}
-
-      - name: Install Dependencies
-        run: poetry install --no-ansi --no-interaction
-
-      - name: Run mypy
-        run: poetry run mypy .
+      - run: "true"

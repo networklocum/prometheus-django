@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "prometheus-django"
-version = "1.1.0"
+version = "1.2.0"
 description = "Prometheus django middleware"
 authors = ["Lantum <support@lantum.com>"]
 packages = [

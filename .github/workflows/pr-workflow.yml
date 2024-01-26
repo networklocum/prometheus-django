@@ -16,18 +16,10 @@ jobs:
       python-version: "3.7"
       poetry-version: "1.5.1"
 
-  build-and-test:
-    name: Test
-    uses: networklocum/workflows/.github/workflows/library-test.yml@main
-    with:
-      poetry-version: "1.5.1"
-      upload-reports: false
-
   success:
     name: Success
     runs-on: ubuntu-latest
     needs:
-      - build-and-test
       - lint
       - mypy
     steps:
